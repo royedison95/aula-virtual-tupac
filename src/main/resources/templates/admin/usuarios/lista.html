@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios - IE Tupac Amaru II</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/administrador.css}" />
+</head>
+
+<body>
+
+    <div class="chevron-strip"></div>
+
+    <!-- ===== SIDEBAR (COPIADO) ===== -->
+    <nav class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-mark">TA</div>
+            <div class="brand-text">
+                Aula Túpac Amaru
+                <small>Educación Básica Regular · Colegio privado</small>
+            </div>
+        </div>
+
+        <div class="nav-group-label">General</div>
+        <a class="nav-link" th:href="@{/admin/dashboard}">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </a>
+        <a class="nav-link" th:href="@{/admin/cursos}">
+            <i class="fas fa-book"></i> Cursos
+            <span class="badge-nav">12</span>
+        </a>
+        <a class="nav-link active" th:href="@{/admin/usuarios}">
+            <i class="fas fa-users"></i> Usuarios
+            <span class="badge-nav">286</span>
+        </a>
+        <a class="nav-link" th:href="@{/admin/profesores}">
+            <i class="fas fa-chalkboard-teacher"></i> Profesores
+            <span class="badge-nav">47</span>
+        </a>
+        <a class="nav-link" th:href="@{/admin/matriculas}">
+            <i class="fas fa-address-card"></i> Matrículas
+        </a>
+
+        <div class="nav-group-label">Gestión</div>
+        <a class="nav-link" th:href="@{/admin/evaluaciones}">
+            <i class="fas fa-calendar-alt"></i> Evaluaciones
+        </a>
+        <a class="nav-link" th:href="@{/admin/reportes}">
+            <i class="fas fa-file-alt"></i> Reportes
+        </a>
+
+        <div class="nav-group-label">Integración MINEDU</div>
+        <a class="nav-link siagie" th:href="@{/admin/siagie}">
+            <i class="fas fa-cloud-upload-alt"></i> SIAGIE
+            <span class="badge-nav">⚠️</span>
+        </a>
+
+        <div class="sidebar-foot">
+            <i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i>
+            Java 21 · Spring Boot 4.1.1 · MySQL 8
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- ===== TOPBAR (COPIADO) ===== -->
+        <header class="topbar">
+            <div>
+                <button class="toggle-sidebar" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <span class="title">Gestión de Usuarios</span>
+            </div>
+            <div class="user-info">
+                <span class="role-pill">ADMIN</span>
+                <div class="avatar">MV</div>
+                <a th:href="@{/logout}" class="btn btn-sm btn-outline-danger ms-2">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </div>
+        </header>
+
+        <!-- ===== CONTENIDO ===== -->
+        <div class="content">
+
+    <!-- ALERTA DE ÉXITO -->
+    <div class="alert alert-success" th:if="${mensaje}" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${mensaje}"></span>
+    </div>
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-users me-2"></i> Usuarios</h3>
+        <a th:href="@{/admin/usuarios/nuevo}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Usuario
+        </a>
+    </div>
+
+    
+    <!--  BUSCADOR -->
+            <div class="toolbar mb-3">
+                <form method="get" th:action="@{/admin/usuarios}" class="filters">
+                    <input type="text" name="buscar" placeholder="Buscar por nombre, apellido o email..."
+                        th:value="${buscarFiltro}" style="width: 300px;">
+                    <input type="hidden" name="rol" th:value="${rolFiltro}">
+                    <input type="hidden" name="estado" th:value="${estadoFiltro}">
+                    <button type="submit" class="btn-new">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a th:href="@{/admin/usuarios}" class="btn-new" style="background: #c4d61f;">
+                        <i class="fas fa-times"></i> Limpiar
+                    </a>
+                </form>
+            </div>
+
+     <!-- PESTAÑAS -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${rolFiltro == 'TODOS'} ? 'active'"
+               th:href="@{/admin/usuarios(rol='TODOS')}">
+                <i class="fas fa-list"></i> Todos
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${rolFiltro == 'ADMIN'} ? 'active'"
+               th:href="@{/admin/usuarios(rol='ADMIN')}">
+                <i class="fas fa-user-shield"></i> Admins
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${rolFiltro == 'PROFESOR'} ? 'active'"
+               th:href="@{/admin/usuarios(rol='PROFESOR')}">
+                <i class="fas fa-chalkboard-teacher"></i> Profesores
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${rolFiltro == 'ESTUDIANTE'} ? 'active'"
+               th:href="@{/admin/usuarios(rol='ESTUDIANTE')}">
+                <i class="fas fa-user-graduate"></i> Estudiantes
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${rolFiltro == 'APODERADO'} ? 'active'"
+               th:href="@{/admin/usuarios(rol='APODERADO')}">
+                <i class="fas fa-user-friends"></i> Apoderados
+            </a>
+        </li>
+
+        <li class="nav-item">
+                    <a class="nav-link"
+                       th:classappend="${estadoFiltro == 'ACTIVOS'} ? 'active'"
+                       th:href="@{/admin/usuarios(estado='ACTIVOS', rol=${rolFiltro})}">
+                        <i class="fas fa-user-check"></i> Activos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       th:classappend="${estadoFiltro == 'DESACTIVADOS'} ? 'active'"
+                       th:href="@{/admin/usuarios(estado='DESACTIVADOS', rol=${rolFiltro})}">
+                        <i class="fas fa-user-slash"></i> Desactivados
+                    </a>
+                </li>
+
+
+    </ul>
+
+    <!-- TABLA -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${usuarios.isEmpty()}">
+                <td colspan="8" class="text-center text-muted py-4">
+                    <i class="fas fa-inbox fa-2x mb-2"></i>
+                    <p>No hay usuarios en esta categoría</p>
+                </td>
+            </tr>
+            <tr th:each="usuario, iter : ${usuarios}">
+                <td th:text="${iter.index + 1}"></td>
+                <td>
+                    <span class="badge bg-secondary" th:text="${usuario.codigoUsuario}">USR-001</span>
+                </td>
+                <td th:text="${usuario.nombre + ' ' + usuario.apellido}"></td>
+                <td th:text="${usuario.email}"></td>
+                <td th:text="${usuario.telefono}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${usuario.rol == 'ADMIN'} ? 'bg-danger' :
+                                          (${usuario.rol == 'PROFESOR'} ? 'bg-warning text-dark' :
+                                          (${usuario.rol == 'ESTUDIANTE'} ? 'bg-info text-dark' : 'bg-secondary'))"
+                          th:text="${usuario.rol}"></span>
+                </td>
+                <td>
+                    <span th:if="${usuario.estado}" class="badge bg-success">Activo</span>
+                    <span th:unless="${usuario.estado}" class="badge bg-danger">Inactivo</span>
+                </td>
+                <td>
+                    <!-- Editar -->
+                    <a th:href="@{/admin/usuarios/editar/{id}(id=${usuario.id})}"
+                       class="btn btn-warning btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <!-- Desactivar (si está activo) -->
+                    <a th:if="${usuario.estado}"
+                       th:href="@{/admin/usuarios/desactivar/{id}(id=${usuario.id})}"
+                       class="btn btn-secondary btn-sm"
+                       onclick="return confirm('¿Desactivar este usuario?')"
+                       title="Desactivar">
+                        <i class="fas fa-ban"></i>
+                    </a>
+
+                    <!-- Reactivar (si está inactivo) -->
+                    <a th:unless="${usuario.estado}"
+                       th:href="@{/admin/usuarios/reactivar/{id}(id=${usuario.id})}"
+                       class="btn btn-success btn-sm"
+                       onclick="return confirm('¿Reactivar este usuario?')"
+                       title="Reactivar">
+                        <i class="fas fa-check"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 992) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.querySelector('.toggle-sidebar');
+            if (window.innerWidth < 992) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

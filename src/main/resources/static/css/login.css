@@ -1,0 +1,447 @@
+
+        /* ===== VARIABLES ===== */
+        :root {
+            --navy: #013806;
+            --navy-2: #1C304F;
+            --paper: #EFEEE7;
+            --paper-2: #E4E2D8;
+            --brick: #A8462B;
+            --brick-dark: #8A3921;
+            --gold: #C79A3E;
+            --ink: #1B1B18;
+            --line: #D6D3C6;
+            --white: #FFFFFF;
+            --green: #4C7A5B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--paper);
+            min-height: 100vh;
+        }
+
+        /* ===== CHEVRON STRIP ===== */
+        .chevron-strip {
+            height: 6px;
+            width: 100%;
+            background:
+                linear-gradient(135deg, var(--gold) 25%, transparent 25%) 0 0/12px 12px,
+                linear-gradient(225deg, var(--gold) 25%, transparent 25%) 0 0/12px 12px,
+                var(--brick);
+            background-repeat: repeat-x;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        /* ===== LOGIN WRAPPER ===== */
+        .login-wrapper {
+            min-height: 100vh;
+            margin-top: 6px;
+        }
+
+        .login-wrapper .row {
+            min-height: calc(100vh - 6px);
+        }
+
+        /* ===== LADO IZQUIERDO - VISUAL ===== */
+        .login-visual {
+            background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 65%, var(--brick-dark) 140%);
+            color: var(--paper);
+            padding: 60px 50px 60px 60px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Decoración de fondo */
+        .login-visual::after {
+            content: "";
+            position: absolute;
+            right: -80px;
+            bottom: -80px;
+            width: 320px;
+            height: 320px;
+            border: 2px solid rgba(199, 154, 62, 0.35);
+            border-radius: 50%;
+        }
+
+        .login-visual::before {
+            content: "";
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(199, 154, 62, 0.2);
+            border-radius: 50%;
+        }
+
+        .login-visual .logo-container {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 40px;
+        }
+
+        .login-visual .brand-mark {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: conic-gradient(from 45deg, var(--gold), var(--brick), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            color: var(--navy);
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .login-visual .brand-name {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .login-visual .brand-name small {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(239, 238, 231, 0.6);
+            margin-top: 2px;
+        }
+
+        .login-visual .eyebrow {
+            font-family: 'Fraunces', serif;
+            font-size: 15px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-visual h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 38px;
+            line-height: 1.15;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-visual p {
+            margin-top: 18px;
+            max-width: 380px;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: rgba(239, 238, 231, 0.75);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-visual .jwt-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: rgba(239, 238, 231, 0.65);
+            border: 1px solid rgba(239, 238, 231, 0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== LADO DERECHO - FORMULARIO ===== */
+        .login-form-side {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            min-height: 100%;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 26px;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .login-box .subtitle {
+            font-size: 13.5px;
+            color: #6b6a63;
+            margin-bottom: 28px;
+        }
+
+        /* ===== TABS DE ROLES (Bootstrap) ===== */
+        .role-tabs {
+            display: flex;
+            border: 1.5px solid var(--line);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .role-tab {
+            flex: 1;
+            text-align: center;
+            padding: 9px 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b6a63;
+            cursor: pointer;
+            border-right: 1px solid var(--line);
+            transition: 0.3s;
+            background: var(--white);
+        }
+
+        .role-tab:last-child {
+            border-right: none;
+        }
+
+        .role-tab:hover {
+            background: #f5f3ed;
+        }
+
+        .role-tab.active {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        /* ===== FORMULARIO ===== */
+        .form-control {
+            border: 1.5px solid var(--line) !important;
+            border-radius: 6px !important;
+            padding: 11px 14px !important;
+            font-size: 14px !important;
+            font-family: 'Inter', sans-serif !important;
+            background: var(--paper) !important;
+            transition: 0.3s !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--brick) !important;
+            background: var(--white) !important;
+            box-shadow: 0 0 0 3px rgba(168, 70, 43, 0.12) !important;
+        }
+
+        .form-control::placeholder {
+            color: #b0aea3 !important;
+        }
+
+        .form-label {
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            color: #3a3a35 !important;
+            margin-bottom: 5px !important;
+        }
+
+        /* ===== CHECKBOX ===== */
+        .form-check-input {
+            accent-color: var(--brick) !important;
+            cursor: pointer !important;
+        }
+
+        .form-check-label {
+            font-size: 12.5px !important;
+            color: #6b6a63 !important;
+            cursor: pointer !important;
+        }
+
+        .forgot-link {
+            color: var(--brick) !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            font-size: 12px !important;
+            transition: 0.2s !important;
+        }
+
+        .forgot-link:hover {
+            color: var(--brick-dark) !important;
+            text-decoration: underline !important;
+        }
+
+        /* ===== BOTÓN LOGIN ===== */
+        .btn-login {
+            width: 100%;
+            padding: 13px !important;
+            background: var(--brick) !important;
+            color: var(--white) !important;
+            border: none !important;
+            border-radius: 6px !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+            font-family: 'Inter', sans-serif !important;
+            transition: 0.3s !important;
+        }
+
+        .btn-login:hover {
+            background: var(--brick-dark) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 70, 43, 0.3) !important;
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            transform: none !important;
+        }
+
+        /* ===== ENLACE REGISTRO ===== */
+        .register-link {
+            text-align: center;
+            font-size: 13px;
+            color: #3a3a35;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: var(--brick);
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .register-link a:hover {
+            color: var(--brick-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== DIVISOR ===== */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 18px 0 10px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
+        .divider span {
+            font-size: 12px;
+            color: #8a897f;
+        }
+
+        /* ===== ALERTA DE ERROR ===== */
+        .alert-error {
+            background: #f8d7da !important;
+            color: #721c24 !important;
+            border: none !important;
+            border-radius: 6px !important;
+            font-size: 12.5px !important;
+            padding: 10px 14px !important;
+            border-left: 3px solid #dc3545 !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .login-visual {
+                padding: 40px 30px;
+                min-height: 220px;
+            }
+
+            .login-visual h1 {
+                font-size: 26px;
+                max-width: 100%;
+            }
+
+            .login-visual p {
+                max-width: 100%;
+            }
+
+            .login-visual .logo-container {
+                margin-bottom: 20px;
+            }
+
+            .login-visual .brand-mark {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+
+            .login-form-side {
+                padding: 30px 20px;
+            }
+
+            .login-box {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-visual {
+                padding: 24px 20px;
+                min-height: 160px;
+            }
+
+            .login-visual h1 {
+                font-size: 20px;
+            }
+
+            .login-visual p {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+
+            .login-visual .jwt-badge {
+                font-size: 10px;
+                padding: 4px 10px;
+                margin-top: 16px;
+            }
+
+            .login-visual .eyebrow {
+                font-size: 12px;
+            }
+
+            .login-box h2 {
+                font-size: 22px;
+            }
+
+            .role-tab {
+                font-size: 10px;
+                padding: 7px 2px;
+            }
+
+            .login-form-side {
+                padding: 20px 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .login-visual {
+                display: none;
+            }
+
+            .login-form-side {
+                min-height: 100vh;
+                align-items: center;
+            }
+        }
+   

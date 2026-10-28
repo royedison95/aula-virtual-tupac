@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - IE Tupac Amaru II</title>
+
+    <!-- ===== BOOTSTRAP 5 ===== -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- ===== FONT AWESOME ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- ===== GOOGLE FONTS ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ===== CSS LOGIN (Thymeleaf) ===== -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+
+    <div class="chevron-strip"></div>
+
+    <div class="login-wrapper container-fluid px-0">
+        <div class="row g-0">
+
+            <!-- ===== LADO IZQUIERDO: VISUAL ===== -->
+            <div class="col-lg-6 col-12 login-visual">
+                <div class="logo-container">
+                    <div class="brand-mark">TA</div>
+                    <div class="brand-name">
+                        IE Túpac Amaru II
+                        <small>Educación Básica Regular · Colegio privado</small>
+                    </div>
+                </div>
+
+                <div class="eyebrow">Bienvenido a tu aula virtual</div>
+                <h1>Un espacio digital para nuestra comunidad educativa.</h1>
+                <p>Accede con tu cuenta institucional para ver tus cursos, entregar evaluaciones y seguir tu avance académico.</p>
+
+                <div class="jwt-badge">
+                    <i class="fas fa-lock"></i> Conexión protegida con JWT + Spring Security
+                </div>
+            </div>
+
+            <!-- ===== LADO DERECHO: FORMULARIO ===== -->
+            <div class="col-lg-6 col-12 login-form-side">
+                <div class="login-box">
+
+                    <h2>Iniciar sesión</h2>
+                    <p class="subtitle">Usa el correo asignado por la institución</p>
+
+                    <!-- ===== ALERTA DE ERROR (Thymeleaf) ===== -->
+                    <div class="alert alert-error" th:if="${error}" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <span th:text="${error}">Correo o contraseña incorrectos.</span>
+                    </div>
+
+                    <!-- ===== ALERTA DE ÉXITO (Thymeleaf) ===== -->
+                    <div class="alert alert-success" th:if="${mensaje}" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span th:text="${mensaje}">Operación exitosa.</span>
+                    </div>
+
+                    <!-- ===== TABS DE ROLES ===== -->
+                    <div class="role-tabs">
+                        <div class="role-tab active" data-role="ESTUDIANTE">Estudiante</div>
+                        <div class="role-tab" data-role="APODERADO">Apoderado</div>
+                        <div class="role-tab" data-role="DOCENTE">Docente</div>
+                        <div class="role-tab" data-role="ADMIN">Administrador</div>
+                    </div>
+
+                    <!-- ===== FORMULARIO (Thymeleaf) ===== -->
+                    <form th:action="@{/login}" method="post" id="loginForm">
+                        <!--  NUEVO: Input oculto para el rol -->
+                        <input type="hidden" id="rolSeleccionado" name="rol" value="ADMIN">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo institucional</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="nombre.apellido@tupacamaru.edu.pe" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="••••••••••" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-login" id="btnLogin">
+                            <span id="btnLoginText">Iniciar sesión</span>
+                        </button>
+
+                    </form>
+
+                    <div class="divider">
+                        <span>¿Eres nuevo?</span>
+                    </div>
+
+                    <div class="register-link">
+                        <a th:href="@{/registro}">Regístrate según tu rol <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT BOOTSTRAP ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ===== SCRIPT LOGIN (Thymeleaf) ===== -->
+    <script th:src="@{/js/login.js}"></script>
+
+</body>
+</html>
