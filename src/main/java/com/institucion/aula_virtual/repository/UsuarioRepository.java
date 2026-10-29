@@ -43,4 +43,8 @@ Page<Usuario> buscar(@Param("buscar") String buscar,
                      @Param("estado") Boolean estado,
                      @Param("departamento") String departamento,
                      Pageable pageable);
+
+
+    long countByRol(String rol);
+
 }

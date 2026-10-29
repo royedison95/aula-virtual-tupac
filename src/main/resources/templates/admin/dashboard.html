@@ -63,7 +63,7 @@
 
         <div class="sidebar-foot">
             <i class="fas fa-circle text-success me-1" style="font-size: 8px;"></i>
-            Java 17 · Spring Boot 3 · MySQL 8
+            Java 21 · Spring Boot 4.1.1 · MySQL 8
         </div>
     </nav>
 
@@ -93,44 +93,51 @@
 
         <div class="content">
 
-            <!-- ===== STAT CARDS ===== -->
+                      <!-- ===== STAT CARDS ===== -->
             <div class="row g-3 mb-4">
+                <!-- 1. ESTUDIANTES -->
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card d-flex justify-content-between align-items-start">
                         <div>
-                            <div class="label">Estudiantes matriculados</div>
-                            <div class="value">1,286</div>
-                            <div class="delta up"><i class="fas fa-arrow-up me-1"></i> +62 desde marzo</div>
+                            <div class="label">Estudiantes registrados</div>
+                            <div class="value" th:text="${totalEstudiantes}">0</div>
+                            <div class="delta up"><i class="fas fa-arrow-up me-1"></i> +<span th:text="${totalMatriculas}">0</span> en el sistema</div>
                         </div>
                         <div class="icon"><i class="fas fa-user-graduate"></i></div>
                     </div>
                 </div>
+
+                <!-- 2. CURSOS ACTIVOS -->
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card d-flex justify-content-between align-items-start">
                         <div>
                             <div class="label">Cursos activos</div>
-                            <div class="value">34</div>
-                            <div class="delta up"><i class="fas fa-arrow-up me-1"></i> +4 nuevos</div>
+                            <div class="value" th:text="${cursosActivos}">0</div>
+                            <div class="delta up"><i class="fas fa-check-circle me-1"></i> En plataforma</div> 
                         </div>
                         <div class="icon"><i class="fas fa-book-open"></i></div>
                     </div>
                 </div>
+
+                <!-- 3. MATRÍCULAS TOTALES -->
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card d-flex justify-content-between align-items-start">
                         <div>
-                            <div class="label">Asistencia promedio</div>
-                            <div class="value">94.2%</div>
-                            <div class="delta up"><i class="fas fa-arrow-up me-1"></i> +1.1 pts</div>
+                            <div class="label">Matrículas totales</div>
+                            <div class="value" th:text="${totalMatriculas}">0</div>
+                            <div class="delta up"><i class="fas fa-arrow-up me-1"></i> Alumnos inscritos</div>
                         </div>
-                        <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                        <div class="icon"><i class="fas fa-address-card"></i></div>
                     </div>
                 </div>
+
+                <!-- 4. DOCENTES -->
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card d-flex justify-content-between align-items-start">
                         <div>
                             <div class="label">Docentes activos</div>
-                            <div class="value">47</div>
-                            <div class="delta flat"><i class="fas fa-minus me-1"></i> sin cambios</div>
+                            <div class="value" th:text="${totalProfesores}">0</div>
+                            <div class="delta flat"><i class="fas fa-minus me-1"></i> En planilla</div>
                         </div>
                         <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
                     </div>

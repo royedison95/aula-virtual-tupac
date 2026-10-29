@@ -29,4 +29,5 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
                         Pageable pageable);
 
      List<Curso> findByProfesor(Usuario profesor); 
+     long countByEstado(String estado);
 }

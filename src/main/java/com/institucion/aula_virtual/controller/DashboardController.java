@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.institucion.aula_virtual.model.Curso;
 import com.institucion.aula_virtual.model.Matricula;
 import com.institucion.aula_virtual.model.Usuario;
+import com.institucion.aula_virtual.repository.CursoRepository;
 import com.institucion.aula_virtual.repository.MatriculaRepository;
+import com.institucion.aula_virtual.repository.UsuarioRepository;
 
 
 @Controller
@@ -19,11 +21,14 @@ public class DashboardController {
 
   
     private final MatriculaRepository matriculaRepository; // <-- VA AQUÍ (junto a las variables)
+    private final UsuarioRepository usuarioRepository; // <-- NUEVO
+    private final CursoRepository cursoRepository;     // <-- NUEVO
 
     // EL CONSTRUCTOR VA AQUÍ
-    public DashboardController( MatriculaRepository matriculaRepository) {
-        
+    public DashboardController( MatriculaRepository matriculaRepository, UsuarioRepository usuarioRepository, CursoRepository cursoRepository) {
         this.matriculaRepository = matriculaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.cursoRepository = cursoRepository;
     }
 
 
@@ -42,12 +47,23 @@ public class DashboardController {
         }
     }
 
-    // ===== DASHBOARD ADMIN  =====
-    @GetMapping("/admin/dashboard") //mapping para el dashboard del administrador
-    public String dashboardAdmin() {//retorna la vista del dashboard del administrador
+    // ===== DASHBOARD ADMIN (DINÁMICO) =====
+    @GetMapping("/admin/dashboard")
+    public String dashboardAdmin(Model model) {
+        // 1. Hacemos las consultas a la base de datos
+        long totalEstudiantes = usuarioRepository.countByRol("ESTUDIANTE");
+        long totalProfesores = usuarioRepository.countByRol("PROFESOR");
+        long cursosActivos = cursoRepository.countByEstado("ACTIVO");
+        long totalMatriculas = matriculaRepository.count();
+
+        // 2. Enviamos los números a la vista HTML
+        model.addAttribute("totalEstudiantes", totalEstudiantes);
+        model.addAttribute("totalProfesores", totalProfesores);
+        model.addAttribute("cursosActivos", cursosActivos);
+        model.addAttribute("totalMatriculas", totalMatriculas);
+
         return "admin/dashboard";
     }
-
 
 
     // ===== DASHBOARD ESTUDIANTE =====
