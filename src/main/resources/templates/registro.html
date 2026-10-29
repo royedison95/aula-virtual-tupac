@@ -96,6 +96,47 @@
                             <input type="text" th:field="*{direccion}" class="form-control"
                                    placeholder="Opcional">
                         </div>
+                        
+                        <!-- =================  UBIGEO ================= -->
+                        <div class="row">
+                            <!-- DEPARTAMENTO -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Departamento *</label>
+                                <select id="departamentoSelect" class="form-select" required>
+                                    <option value="">-- Seleccionar --</option>
+                                    <option th:each="d : ${departamentos}" 
+                                            th:value="${d.id}" 
+                                            th:text="${d.name}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- PROVINCIA -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Provincia *</label>
+                                <select id="provinciaSelect" class="form-select" required>
+                                    <option value="">-- Seleccionar --</option>
+                                </select>
+                            </div>
+
+                            <!-- DISTRITO -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Distrito *</label>
+                                <select id="distritoSelect" class="form-select" required>
+                                    <option value="">-- Seleccionar --</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- CAMPO OCULTO PARA GUARDAR EL NOMBRE DEL DEPARTAMENTO EN LA BD -->
+                        <input type="hidden" th:field="*{departamento}" id="departamentoTexto">
+                        <!-- ================================================ -->
+
+
+                        <!-- Enlazamos el archivo JavaScript registro-ubicacion.js -->
+                         <script th:src="@{/js/registro-ubicacion.js}"></script>
+                        </body>
+                         </html>
 
                         <!-- BOTÓN -->
                         <button type="submit" class="btn btn-success w-100 mb-3">

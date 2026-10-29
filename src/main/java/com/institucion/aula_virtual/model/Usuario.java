@@ -45,6 +45,9 @@ public class Usuario implements UserDetails {
     private String telefono;
     private String direccion;
 
+    @Column(name = "departamento")
+    private String departamento;
+
     @CreationTimestamp
     @Column(name = "fecha_registro", updatable = false)
     private LocalDateTime fechaRegistro;
@@ -133,6 +136,14 @@ public class Usuario implements UserDetails {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
     }
 
     public LocalDateTime getFechaRegistro() {

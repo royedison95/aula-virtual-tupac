@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.institucion.aula_virtual.model.Usuario;
+import com.institucion.aula_virtual.repository.DepartamentoRepository;
 import com.institucion.aula_virtual.service.UsuarioService;
 
 @Controller
@@ -18,16 +19,19 @@ public class RegistroController {
 
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
+    private final DepartamentoRepository departamentoRepository;
 
     public RegistroController(UsuarioService usuarioService,
-                              PasswordEncoder passwordEncoder) {
+                              PasswordEncoder passwordEncoder, DepartamentoRepository departamentoRepository) {
         this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
+        this.departamentoRepository = departamentoRepository;
     }
 
     @GetMapping("/registro")
     public String mostrarRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         return "registro";
     }
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.institucion.aula_virtual.model.Usuario;
+import com.institucion.aula_virtual.repository.DepartamentoRepository;
 import com.institucion.aula_virtual.service.RolService;
 import com.institucion.aula_virtual.service.UsuarioService;
 
@@ -30,13 +31,15 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
     private final RolService rolService; 
+     private final DepartamentoRepository departamentoRepository; 
 
     // ==================== CONSTRUCTOR MANUAL ====================
     public UsuarioController(UsuarioService usuarioService,
-                             PasswordEncoder passwordEncoder, RolService rolService) {
+                             PasswordEncoder passwordEncoder, RolService rolService, DepartamentoRepository departamentoRepository) {
         this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
         this.rolService = rolService;
+        this.departamentoRepository = departamentoRepository;
     }
 
     // ===== LISTAR USUARIOS (CON BUSCADOR Y FILTROS) =====
@@ -45,6 +48,7 @@ public class UsuarioController {
             @RequestParam(value = "buscar", required = false) String buscar,
             @RequestParam(value = "rol", required = false) String rol,
             @RequestParam(value = "estado", required = false, defaultValue = "ACTIVOS") String estado,
+            @RequestParam(value = "departamento", required = false) String departamento,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             Model model) {
@@ -52,7 +56,7 @@ public class UsuarioController {
         boolean esActivo = "ACTIVOS".equals(estado);
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Usuario> usuariosPage = usuarioService.buscar(buscar, rol, esActivo, pageable);
+        Page<Usuario> usuariosPage = usuarioService.buscar(buscar, rol, esActivo, departamento, pageable);
 
         model.addAttribute("usuarios", usuariosPage.getContent());
         model.addAttribute("currentPage", page);
@@ -62,6 +66,9 @@ public class UsuarioController {
         model.addAttribute("rolFiltro", rol == null ? "TODOS" : rol);
         model.addAttribute("estadoFiltro", estado);
         model.addAttribute("size", size);
+        // NUEVO: Enviamos los datos para el select de filtro
+        model.addAttribute("departamentosFiltro", departamentoRepository.findAll());
+        model.addAttribute("departamentoFiltro", departamento);
 
         return "admin/usuarios/lista";
     }
@@ -71,6 +78,7 @@ public class UsuarioController {
     public String formularioCrear(Model model) {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("roles", rolService.listarTodos()); 
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         return "admin/usuarios/formulario";
     }
 
@@ -80,6 +88,7 @@ public class UsuarioController {
         Usuario usuario = usuarioService.buscarPorId(id).orElse(null);
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", rolService.listarTodos()); 
+        model.addAttribute("departamentos", departamentoRepository.findAll());
         return "admin/usuarios/formulario";
     }
 
@@ -93,6 +102,8 @@ public class UsuarioController {
             if (usuario.getId() == null || !usuarioExistente.get().getId().equals(usuario.getId())) {
                 model.addAttribute("error", "El correo " + usuario.getEmail() + " ya está registrado.");
                 model.addAttribute("usuario", usuario);
+                model.addAttribute("roles", rolService.listarTodos()); // Para que no falle el HTML si retorna al formulario
+                model.addAttribute("departamentos", departamentoRepository.findAll());
                 return "admin/usuarios/formulario";
             }
         }

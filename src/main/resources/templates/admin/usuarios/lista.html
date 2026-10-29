@@ -180,6 +180,7 @@
                 <th>Email</th>
                 <th>Teléfono</th>
                 <th>Rol</th>
+                <th>Procedencia</th> 
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -206,6 +207,19 @@
                                           (${usuario.rol == 'ESTUDIANTE'} ? 'bg-info text-dark' : 'bg-secondary'))"
                           th:text="${usuario.rol}"></span>
                 </td>
+
+                <td>
+                     <span th:if="${usuario.departamento != null && !usuario.departamento.isEmpty()}" 
+                                  th:text="${usuario.departamento}" 
+                                  class="badge bg-light text-dark border">
+                    </span>
+                    <span th:if="${usuario.departamento == null || usuario.departamento.isEmpty()}" 
+                                  class="text-muted">
+                                -
+                     </span>
+                </td>
+
+
                 <td>
                     <span th:if="${usuario.estado}" class="badge bg-success">Activo</span>
                     <span th:unless="${usuario.estado}" class="badge bg-danger">Inactivo</span>

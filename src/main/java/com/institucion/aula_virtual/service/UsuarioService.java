@@ -36,10 +36,11 @@ public class UsuarioService {
         return usuarioRepository.findByRolAndEstado(rol, estado);
     }
 
-    public Page<Usuario> buscar(String buscar, String rol, Boolean estado, Pageable pageable) {
+    public Page<Usuario> buscar(String buscar, String rol, Boolean estado, String departamento, Pageable pageable) {
         String buscarFiltro = (buscar == null || buscar.isEmpty()) ? null : buscar;
         String rolFiltro = (rol == null || rol.isEmpty() || rol.equals("TODOS")) ? null : rol;
-        return usuarioRepository.buscar(buscarFiltro, rolFiltro, estado, pageable);
+        String departamentoFiltro = (departamento == null || departamento.isEmpty() || departamento.equals("TODOS")) ? null : departamento;
+        return usuarioRepository.buscar(buscarFiltro, rolFiltro, estado, departamentoFiltro, pageable);
     }
 
     public Optional<Usuario> buscarPorId(Long id) {

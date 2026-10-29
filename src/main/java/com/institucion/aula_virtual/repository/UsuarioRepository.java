@@ -34,9 +34,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
        "OR LOWER(u.apellido) LIKE LOWER(CONCAT('%', :buscar, '%')) " +
        "OR LOWER(u.email) LIKE LOWER(CONCAT('%', :buscar, '%'))) AND " +
        "(:rol IS NULL OR u.rol = :rol) AND " +
-       "(:estado IS NULL OR u.estado = :estado)")
+       "(:estado IS NULL OR u.estado = :estado) AND" +
+       "(:departamento IS NULL OR u.departamento = :departamento)")
 Page<Usuario> buscar(@Param("buscar") String buscar,
                      @Param("rol") String rol,
                      @Param("estado") Boolean estado,
+                     @Param("departamento") String departamento,
                      Pageable pageable);
 }
