@@ -6,9 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,11 +42,13 @@ public class Curso {
     private String estado;
     private Integer duracionHoras;
 
-    @Column(name = "id_profesor")
-    private Long idProfesor;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_profesor")
+    private Usuario profesor;
 
-    @Column(name = "id_grado")
-    private Long idGrado;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_grado")
+    private Grado grado;
 
     // ==================== CONSTRUCTORES ====================
     public Curso() {
@@ -52,7 +57,7 @@ public class Curso {
     public Curso(Long id, String titulo, String descripcion, String imagenUrl,
                  String areaCurricular, String nivel, String gradoSeccion,
                  String bimestre, LocalDateTime fechaCreacion, String estado,
-                 Integer duracionHoras, Long idProfesor, Long idGrado) {
+                 Integer duracionHoras, Usuario profesor, Grado grado) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -64,8 +69,8 @@ public class Curso {
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
         this.duracionHoras = duracionHoras;
-        this.idProfesor = idProfesor;
-        this.idGrado = idGrado;
+        this.profesor = profesor;
+        this.grado = grado;
     }
 
     // ==================== GETTERS Y SETTERS ====================
@@ -102,9 +107,9 @@ public class Curso {
     public Integer getDuracionHoras() { return duracionHoras; }
     public void setDuracionHoras(Integer duracionHoras) { this.duracionHoras = duracionHoras; }
 
-    public Long getIdProfesor() { return idProfesor; }
-    public void setIdProfesor(Long idProfesor) { this.idProfesor = idProfesor; }
+    public Usuario getProfesor() { return profesor; }
+    public void setProfesor(Usuario profesor) { this.profesor = profesor; }
 
-    public Long getIdGrado() { return idGrado; }
-    public void setIdGrado(Long idGrado) { this.idGrado = idGrado; }
+    public Grado getGrado() { return grado; }
+    public void setGrado(Grado grado) { this.grado = grado; }
 }
