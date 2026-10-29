@@ -51,6 +51,11 @@
                             <a th:href="@{/profesor/curso/{id}/lecciones(id=${curso.id})}" class="btn btn-sm w-100 mt-2" style="background: var(--brick); color: white;">
                                 Gestionar Lecciones <i class="fas fa-plus ms-1"></i>
                             </a>
+
+                            <a th:href="@{/profesor/evaluaciones/curso/{id}(id=${curso.id})}" class="btn btn-sm w-100 mt-2" style="background: var(--gold); color: white;">
+                                Gestionar Evaluaciones <i class="fas fa-edit ms-1"></i>
+                            </a>
+
                         </div>
                     </div>
                 </div>
