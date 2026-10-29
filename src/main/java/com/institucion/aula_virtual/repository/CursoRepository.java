@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;// Importa la anotación Qu
 import org.springframework.data.repository.query.Param;// Importa la anotación Param para vincular parámetros de consulta con variables de método
 
 import com.institucion.aula_virtual.model.Curso;
+import com.institucion.aula_virtual.model.Usuario;
 
 public interface CursoRepository extends JpaRepository<Curso, Long> {
 
@@ -26,4 +27,6 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
                         @Param("area") String area,
                         @Param("buscar") String buscar,
                         Pageable pageable);
+
+     List<Curso> findByProfesor(Usuario profesor); 
 }
