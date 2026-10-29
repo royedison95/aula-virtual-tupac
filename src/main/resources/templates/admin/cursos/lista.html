@@ -151,8 +151,12 @@
                         <!-- ÁREA -->
                         <td th:text="${curso.areaCurricular}">Área</td>
                         
-                        <!-- ESTUDIANTES (Por ahora 0) -->
-                        <td><span class="badge bg-secondary">0</span></td>
+                          <!-- conteo de ESTUDIANTES (Dinámico) -->
+                        <td>
+                            <span class="badge bg-secondary" 
+                                  th:text="${conteoAlumnos[curso.id] != null ? conteoAlumnos[curso.id] : 0}">
+                            </span>
+                        </td>
 
                         <!-- ESTADO -->
                         <td>

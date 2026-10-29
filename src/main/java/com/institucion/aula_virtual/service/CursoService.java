@@ -43,4 +43,8 @@ public class CursoService {
     public void eliminar(Long id) {
         cursoRepository.deleteById(id);
     }
+
+        public List<Curso> listarTodos() {
+        return cursoRepository.findAll();
+    }
 }

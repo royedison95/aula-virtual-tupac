@@ -1,5 +1,8 @@
 package com.institucion.aula_virtual.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.institucion.aula_virtual.model.Curso;
+import com.institucion.aula_virtual.repository.MatriculaRepository;
 import com.institucion.aula_virtual.service.CursoService;
 import com.institucion.aula_virtual.service.GradoService;
 import com.institucion.aula_virtual.service.UsuarioService;
@@ -27,14 +31,17 @@ public class CursoController {
     private final CursoService cursoService;
     private final UsuarioService usuarioService;
     private final GradoService gradoService;
+    private final MatriculaRepository matriculaRepository;
 
     // ==================== CONSTRUCTOR MANUAL ====================
     public CursoController(CursoService cursoService,
                            UsuarioService usuarioService,
-                           GradoService gradoService) {
+                           GradoService gradoService,
+                           MatriculaRepository matriculaRepository) {
         this.cursoService = cursoService;
         this.usuarioService = usuarioService;
         this.gradoService = gradoService;
+        this.matriculaRepository = matriculaRepository;
     }
 
     // ===== LISTAR CON LOS 4 FILTROS =====
@@ -65,6 +72,13 @@ public class CursoController {
         model.addAttribute("grados", gradoService.listarTodos());
         model.addAttribute("areas", cursoService.listarAreasUnicas());
 
+         // Contar alumnos por curso
+        Map<Long, Long> conteoAlumnos = new HashMap<>();
+        for (Curso c : cursosPage.getContent()) {
+            conteoAlumnos.put(c.getId(), matriculaRepository.countByCurso(c));
+        }
+        model.addAttribute("conteoAlumnos", conteoAlumnos);
+        
         return "admin/cursos/lista";
     }
 
@@ -89,6 +103,7 @@ public class CursoController {
             redirectAttributes.addFlashAttribute("error",
                     "No se puede eliminar este curso porque tiene lecciones o matrículas asociadas.");
         }
+
         return "redirect:/admin/cursos";
     }
 }
