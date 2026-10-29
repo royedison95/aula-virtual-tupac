@@ -131,7 +131,7 @@ public class UsuarioController {
     }
 
     // ===== DESACTIVAR =====
-    @GetMapping("/desactivar/{id}")
+    @PostMapping("/desactivar/{id}")
     public String desactivar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioService.buscarPorId(id).orElse(null);
         if (usuario != null) {
@@ -143,7 +143,7 @@ public class UsuarioController {
     }
 
     // ===== REACTIVAR =====
-    @GetMapping("/reactivar/{id}")
+    @PostMapping("/reactivar/{id}")
     public String reactivar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioService.buscarPorId(id).orElse(null);
         if (usuario != null) {

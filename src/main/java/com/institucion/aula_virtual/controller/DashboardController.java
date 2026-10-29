@@ -2,7 +2,10 @@ package com.institucion.aula_virtual.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.institucion.aula_virtual.model.Usuario;
 
 @Controller
 public class DashboardController {
@@ -35,9 +38,15 @@ public class DashboardController {
 
     // ===== DASHBOARD ESTUDIANTE =====
     @GetMapping("/estudiante/dashboard")
-    public String dashboardEstudiante() {
+    public String dashboardEstudiante( Authentication auth, Model model) {
+        // Obtenemos al usuario logueado
+        Usuario usuario = (Usuario) auth.getPrincipal();
+        
+        // Lo enviamos al HTML
+        model.addAttribute("usuarioEstudiante", usuario);
         return "estudiante/dashboard";
     }
+    
     // ===== DASHBOARD APODERADO =====
      @GetMapping("/apoderado/dashboard")
     public String dashboardApoderado() {

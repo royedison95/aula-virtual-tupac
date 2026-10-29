@@ -80,9 +80,14 @@
             <div class="user-info">
                 <span class="role-pill">ADMIN</span>
                 <div class="avatar">MV</div>
-                <a th:href="@{/logout}" class="btn btn-sm btn-outline-danger ms-2">
-                    <i class="fas fa-sign-out-alt"></i> Salir
-                </a>
+
+                <form th:action="@{/logout}" method="post" class="ms-2 mb-0">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </form>
+
             </div>
         </header>
 

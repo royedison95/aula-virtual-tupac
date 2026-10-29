@@ -80,7 +80,7 @@ public class CursoController {
     }
 
     // ===== ELIMINAR =====
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             cursoService.eliminar(id);
