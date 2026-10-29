@@ -17,6 +17,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     //  Validar DNI duplicado (AVANCE 3)
     Optional<Usuario> findByDni(String dni);
+    
+    Optional<Usuario> findByCodigoUsuario(String codigoUsuario);
 
     List<Usuario> findByRol(String rol);
 

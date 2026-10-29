@@ -31,7 +31,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
     private final RolService rolService; 
-     private final DepartamentoRepository departamentoRepository; 
+    private final DepartamentoRepository departamentoRepository; 
 
     // ==================== CONSTRUCTOR MANUAL ====================
     public UsuarioController(UsuarioService usuarioService,
@@ -66,7 +66,6 @@ public class UsuarioController {
         model.addAttribute("rolFiltro", rol == null ? "TODOS" : rol);
         model.addAttribute("estadoFiltro", estado);
         model.addAttribute("size", size);
-        // NUEVO: Enviamos los datos para el select de filtro
         model.addAttribute("departamentosFiltro", departamentoRepository.findAll());
         model.addAttribute("departamentoFiltro", departamento);
 
@@ -92,29 +91,44 @@ public class UsuarioController {
         return "admin/usuarios/formulario";
     }
 
-        // ===== GUARDAR =====
+    // ===== GUARDAR =====
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Usuario usuario, Model model) {
 
-        // Validar email duplicado
+        // 1. Validar email duplicado
         Optional<Usuario> usuarioExistente = usuarioService.buscarPorEmail(usuario.getEmail());
         if (usuarioExistente.isPresent()) {
             if (usuario.getId() == null || !usuarioExistente.get().getId().equals(usuario.getId())) {
                 model.addAttribute("error", "El correo " + usuario.getEmail() + " ya está registrado.");
                 model.addAttribute("usuario", usuario);
-                model.addAttribute("roles", rolService.listarTodos()); // Para que no falle el HTML si retorna al formulario
+                model.addAttribute("roles", rolService.listarTodos()); 
                 model.addAttribute("departamentos", departamentoRepository.findAll());
                 return "admin/usuarios/formulario";
             }
         }
 
-        //  NUEVO USUARIO: ENCRIPTAR CONTRASEÑA
+        // 2. NUEVO: Validar DNI duplicado
+        if (usuario.getDni() != null && !usuario.getDni().isEmpty()) {
+            Optional<Usuario> usuarioPorDni = usuarioService.buscarPorDni(usuario.getDni());
+            if (usuarioPorDni.isPresent()) {
+                // Si el DNI existe, pero pertenece a OTRO usuario (no al que estamos editando)
+                if (usuario.getId() == null || !usuarioPorDni.get().getId().equals(usuario.getId())) {
+                    model.addAttribute("error", "El DNI " + usuario.getDni() + " ya está registrado en otro usuario.");
+                    model.addAttribute("usuario", usuario);
+                    model.addAttribute("roles", rolService.listarTodos()); 
+                    model.addAttribute("departamentos", departamentoRepository.findAll());
+                    return "admin/usuarios/formulario";
+                }
+            }
+        }
+
+        // 3. NUEVO USUARIO: ENCRIPTAR CONTRASEÑA
         if (usuario.getId() == null) {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             usuario.setEstado(true);
             usuario.setFechaRegistro(LocalDateTime.now());
         } else {
-            //  EDITAR: Si no se cambió la contraseña, mantener la existente
+            // EDITAR: Si no se cambió la contraseña, mantener la existente
             Usuario usuarioActual = usuarioService.buscarPorId(usuario.getId()).orElse(null);
             if (usuarioActual != null) {
                 if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {

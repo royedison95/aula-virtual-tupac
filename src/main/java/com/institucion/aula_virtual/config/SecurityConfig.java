@@ -51,7 +51,7 @@ public class SecurityConfig {
         http
             .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/img/**", "/api/**").permitAll()
+                .requestMatchers("/login", "/registro", "/recuperar-password", "/cambiar-password", "/css/**", "/js/**", "/img/**", "/api/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/profesor/**").hasRole("PROFESOR")
                 .requestMatchers("/estudiante/**").hasRole("ESTUDIANTE")
@@ -72,7 +72,10 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
             )
-           .csrf(csrf -> csrf.csrfTokenRepository(org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse()));
+                      .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/recuperar-password", "/cambiar-password") 
+                .csrfTokenRepository(org.springframework.security.web.csrf.CookieCsrfTokenRepository.withHttpOnlyFalse())
+            );
 
         return http.build();
     }

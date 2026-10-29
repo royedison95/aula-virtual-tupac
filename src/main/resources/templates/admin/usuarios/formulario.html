@@ -109,6 +109,13 @@
                                 <input type="text" th:field="*{codigoUsuario}" class="form-control"
                                     placeholder="Escribe el código: ADMIN-01, PROF-001, EST-001...">
                             </div>
+
+                             <!-- NUEVO: CAMPO DNI -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">DNI</label>
+                            <input type="text" th:field="*{dni}" class="form-control"
+                                placeholder="Ej: 12345678" maxlength="8" required>
+                        </div>
                         </div>
 
                     <div class="row">

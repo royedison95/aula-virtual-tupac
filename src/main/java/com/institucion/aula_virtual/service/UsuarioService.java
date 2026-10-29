@@ -50,6 +50,9 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
+    public Optional<Usuario> buscarPorCodigoUsuario(String codigoUsuario) {
+        return usuarioRepository.findByCodigoUsuario(codigoUsuario);
+    }
 
     public Usuario guardar(Usuario usuario) {
         return usuarioRepository.save(usuario);
@@ -58,6 +61,7 @@ public class UsuarioService {
     public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
     }
+
 
 
     //  Buscar por DNI (AVANCE 3)
