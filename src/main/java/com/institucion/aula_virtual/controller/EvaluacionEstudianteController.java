@@ -93,7 +93,7 @@ public class EvaluacionEstudianteController {
         for (Pregunta p : preguntas) {
             String opcionElegida = respuestas.get("pregunta_" + p.getId());
             if (opcionElegida != null) {
-                Opcion opcion = opcionRepository.findById(Long.parseLong(opcionElegida)).orElse(null);
+                Opcion opcion = opcionRepository.findById(Long.valueOf(opcionElegida)).orElse(null);
                 if (opcion != null && opcion.getEsCorrecta()) {
                     puntajeObtenido += p.getPuntaje();
                 }
@@ -115,5 +115,19 @@ public class EvaluacionEstudianteController {
 
         redirectAttributes.addFlashAttribute("mensaje", "¡Examen enviado! Tu nota es: " + puntajeObtenido + " pts.");
         return "redirect:/estudiante/evaluaciones";
+    }
+
+
+        // 4. Ver historial de notas del estudiante
+    @GetMapping("/mis-notas")
+    public String verMisNotas(Authentication auth, Model model) {
+        Usuario estudiante = (Usuario) auth.getPrincipal();
+        
+        // Buscamos todas las evaluaciones que este alumno ha rendido
+        List<EvaluacionEstudiante> misNotas = evalEstudianteRepository.findByEstudiante(estudiante);
+
+        model.addAttribute("usuarioEstudiante", estudiante);
+        model.addAttribute("misNotas", misNotas);
+        return "estudiante/mis-notas";
     }
 }
